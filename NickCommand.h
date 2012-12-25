@@ -13,7 +13,7 @@
 
 class NickCommand: public Command {
 public:
-	NickCommand(Client *from, string& to);
+	NickCommand(Client* from, const string& to);
 	virtual ~NickCommand();
 
 	void execute(ChatServer *cs);

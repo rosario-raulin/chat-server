@@ -19,13 +19,13 @@ using namespace std;
 
 class Client {
 public:
-	Client(int fd, string name);
+	Client(int fd, const string& name);
 	virtual ~Client();
 
-	string getName();
-	Socket* getSocket();
+	string const& getName() const;
+	Socket* getSocket() const;
 	Command* getCommand();
-	void setName(string name);
+	void setName(const string& name);
 	bool readNext();
 
 private:

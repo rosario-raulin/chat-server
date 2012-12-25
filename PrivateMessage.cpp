@@ -7,7 +7,7 @@
 
 #include "PrivateMessage.h"
 
-PrivateMessage::PrivateMessage(Client* from, string to, string message)
+PrivateMessage::PrivateMessage(Client* from, const string& to, const string& message)
 : PublicMessage(from, message) {
 	_to = to;
 }

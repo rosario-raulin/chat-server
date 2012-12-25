@@ -9,17 +9,16 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <iostream>
 
 Socket::Socket(int fd) {
 	_fd = fd;
 }
 
-int Socket::getFd() {
+int Socket::getFd() const {
 	return _fd;
 }
 
-int Socket::readTo(ostringstream& to) {
+int Socket::readTo(ostringstream& to) const {
 	char buf[BUFSIZE];
 	int bytes_written = read(_fd, buf, BUFSIZE-1);
 	if (bytes_written > 0) {
@@ -29,7 +28,7 @@ int Socket::readTo(ostringstream& to) {
 	return bytes_written;
 }
 
-void Socket::write(string& message) {
+void Socket::write(const string& message) const {
 	if (send(_fd, message.data(), message.size(), MSG_NOSIGNAL) == -1) {
 		// TODO: throw more appropriate exception
 		throw "write failed";
@@ -39,14 +38,11 @@ void Socket::write(string& message) {
 void Socket::shutdown() {
 	if (_fd > 0) {
 		close(_fd);
-		cout << "closed: " << _fd << endl;
 		_fd = -1;
 	}
 }
 
 Socket::~Socket() {
-	cout << "called ~Socket()" << endl;
-	cout << _fd << endl;
 	shutdown();
 }
 

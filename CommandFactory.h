@@ -22,10 +22,10 @@ public:
 	CommandFactory();
 	virtual ~CommandFactory();
 
-	static Command* createInstance(Client* from, string& msg);
+	static Command* createInstance(Client* from, const string& msg);
 
 private:
-	static bool _matches(const char* input, const char* regex);
+	static bool _matches(const string& input, const char* regex);
 };
 
 #endif /* COMMANDFACTORY_H_ */

@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 
-ChatServer::ChatServer(const char* port) {
+ChatServer::ChatServer(const char * port) {
 	_server = new ServerSocket(port);
 }
 
@@ -55,21 +55,22 @@ void ChatServer::run() {
 	}
 }
 
-void ChatServer::addClient(int fd) {
-	Client* next = new Client(fd, _genRandomName());
+void ChatServer::addClient(const int fd) {
+	string name = _genRandomName();
+	Client* next = new Client(fd, name);
 	_clients.insert(pair<int, Client*>(fd, next));
 	_names.insert(pair<string, Client*>(next->getName(), next));
 }
 
-void ChatServer::remClient(int fd) {
+void ChatServer::remClient(const int fd) {
 	Client* x = _clients[fd];
 	_clients.erase(fd);
 	_names.erase(x->getName());
 	delete x;
 }
 
-void ChatServer::sendToAll(Client* from, string& message) {
-	for (map<int,Client*>::iterator i = _clients.begin();
+void ChatServer::sendToAll(const Client * from, const string& message) const {
+	for (map<int,Client*>::const_iterator i = _clients.begin();
 			i != _clients.end();
 			++i) {
 		if (i->second != from) {
@@ -78,25 +79,25 @@ void ChatServer::sendToAll(Client* from, string& message) {
 	}
 }
 
-void ChatServer::sendTo(Client* cl, string& message) {
+void ChatServer::sendTo(const Client * cl, const string& message) const {
 	cl->getSocket()->write(message);
 }
 
-void ChatServer::sendTo(string& to, string& message) {
+void ChatServer::sendTo(const string& to, const string& message) {
 	Client* to_c = _names[to];
 	if (to_c != NULL) {
 		sendTo(to_c, message);
 	}
 }
 
-ServerSocket* ChatServer::getServer() {
+ServerSocket* ChatServer::getServer() const {
 	return _server;
 }
 
-vector<string>* ChatServer::getClients() {
+vector<string>* ChatServer::getClients() const {
 	vector<string>* clients = new vector<string>();
 	clients->reserve(_clients.size());
-	for (map<int,Client*>::iterator i = _clients.begin();
+	for (map<int,Client*>::const_iterator i = _clients.begin();
 			i != _clients.end();
 			++i) {
 		clients->push_back(i->second->getName());
@@ -104,11 +105,11 @@ vector<string>* ChatServer::getClients() {
 	return clients;
 }
 
-bool ChatServer::inUse(string& name) {
+bool ChatServer::inUse(const string& name) const {
 	return _names.find(name) != _names.end();
 }
 
-void ChatServer::rename(Client *cl, string to) {
+void ChatServer::rename(Client *cl, const string& to) {
 	_names.erase(cl->getName());
 	cl->setName(to);
 	_names.insert(pair<string,Client*>(to,cl));

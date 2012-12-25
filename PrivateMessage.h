@@ -12,7 +12,7 @@
 
 class PrivateMessage : public PublicMessage {
 public:
-	PrivateMessage(Client* from, string to, string message);
+	PrivateMessage(Client* from, const string& to, const string& message);
 	virtual ~PrivateMessage();
 
 	void execute(ChatServer* cs);

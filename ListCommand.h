@@ -14,7 +14,7 @@
 
 class ListCommand: public Command {
 public:
-	ListCommand(Client* from);
+	ListCommand(Client *from);
 	virtual ~ListCommand();
 
 	void execute(ChatServer* cs);

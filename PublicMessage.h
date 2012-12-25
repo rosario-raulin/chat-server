@@ -16,7 +16,7 @@ using namespace std;
 
 class PublicMessage: public Command {
 public:
-	PublicMessage(Client* from, string message);
+	PublicMessage(Client* from, const string& message);
 	virtual ~PublicMessage();
 
 	void execute(ChatServer* cs);

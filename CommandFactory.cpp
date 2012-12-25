@@ -21,28 +21,27 @@ CommandFactory::CommandFactory() {
 CommandFactory::~CommandFactory() {
 }
 
-bool CommandFactory::_matches(const char* input, const char* regex) {
+bool CommandFactory::_matches(const string& input, const char* regex) {
 	regex_t preg;
-	regmatch_t pmatch[1];
-	if (regcomp(&preg, regex, 0) == 0) {
-		return regexec(&preg, input, 1, pmatch, 0) == 0;
+	if (regcomp(&preg, regex, REG_NOSUB) == 0) {
+		return regexec(&preg, input.c_str(),0, NULL, 0) == 0;
 	}
 	return false;
 }
 
-Command* CommandFactory::createInstance(Client* from, string& msg) {
+Command* CommandFactory::createInstance(Client* from, const string& msg) {
 	Command* cmd = NULL;
 
 	if(msg[0] == '/') {
-		if (_matches(msg.c_str(), "/list")) {
+		if (_matches(msg, "/list")) {
 			cmd = new ListCommand(from);
-		} else if (_matches(msg.c_str(), "/msg [[:alnum:]]\\+ [[:alnum:]]\\+")) {
+		} else if (_matches(msg, "/msg [[:alnum:]]\\+ [[:alnum:]]\\+")) {
 			size_t name_start = msg.find(' ')+1;
 			size_t text_start = msg.find(' ', name_start);
 			string name = msg.substr(name_start, text_start - name_start);
 			string text = msg.substr(text_start+1);
 			cmd = new PrivateMessage(from, name, text);
-		} else if (_matches(msg.c_str(), "/nick [[:alnum:]]\\+")) {
+		} else if (_matches(msg, "/nick [[:alnum:]]\\+")) {
 			size_t nick_start = msg.find(' ')+1;
 			string nick = msg.substr(nick_start, msg.length() - nick_start -1);
 			cmd = new NickCommand(from, nick);

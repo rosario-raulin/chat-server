@@ -26,18 +26,18 @@ public:
 	virtual ~ChatServer();
 
 	void run();
-	void addClient(int fd);
-	void remClient(int fd);
-	ServerSocket* getServer();
-	vector<string>* getClients();
-	void sendToAll(Client* from, string& message);
-	void sendTo(string& to, string& message);
-	void sendTo(Client* to, string& message);
-	bool inUse(string& name);
-	void rename(Client* cl, string to);
+	void addClient(const int fd);
+	void remClient(const int fd);
+	ServerSocket* getServer() const;
+	vector<string>* getClients() const;
+	void sendToAll(const Client * from, const string& message) const;
+	void sendTo(const string& to, const string& message);
+	void sendTo(const Client * to, const string& message) const;
+	bool inUse(const string& name) const;
+	void rename(Client * cl, const string& to);
 
 private:
-	ServerSocket* _server;
+	ServerSocket * _server;
 	map<int,Client*> _clients;
 	map<string,Client*> _names;
 

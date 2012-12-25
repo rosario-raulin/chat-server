@@ -19,9 +19,9 @@ class Socket {
 public:
 	Socket(int fd);
 	virtual ~Socket();
-	int getFd();
-	int readTo(ostringstream& to);
-	void write(string& message);
+	int getFd() const;
+	int readTo(ostringstream& to) const;
+	void write(const string& message) const;
 	void shutdown();
 
 protected:

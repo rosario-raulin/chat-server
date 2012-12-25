@@ -7,7 +7,7 @@
 
 #include "NickCommand.h"
 
-NickCommand::NickCommand(Client *from, string& to) : Command(from) {
+NickCommand::NickCommand(Client* from, const string& to) : Command(from) {
 	_to = to;
 }
 

@@ -17,4 +17,3 @@ void UnknownCommand::execute(ChatServer *cs) {
 	string errMsg("error: unknown command\n");
 	cs->sendTo(_from, errMsg);
 }
-

@@ -10,7 +10,7 @@
 #include <iostream>
 #include <sstream>
 
-PublicMessage::PublicMessage(Client* from, string message)
+PublicMessage::PublicMessage(Client* from, const string& message)
 : Command(from) {
 	ostringstream out;
 	out << from->getName() << ": " << message << endl;
