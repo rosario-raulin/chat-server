@@ -38,7 +38,6 @@ bool Client::_hasCommand() {
 	string s = _buffer.str();
 	size_t pos = s.find('\n');
 	if (pos != string::npos) {
-		s[pos] = '\0';
 		_command = CommandFactory::createInstance(this, s);
 		_buffer.str("");
 		return true;

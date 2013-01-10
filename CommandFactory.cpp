@@ -43,7 +43,11 @@ Command* CommandFactory::createInstance(Client* from, const string& msg) {
 			cmd = new PrivateMessage(from, name, text);
 		} else if (_matches(msg, "/nick [[:alnum:]]\\+")) {
 			size_t nick_start = msg.find(' ')+1;
-			string nick = msg.substr(nick_start, msg.length() - nick_start -1);
+			size_t nick_end = msg.find(' ', nick_start);
+			if (nick_end == string::npos) {
+				nick_end = msg.length()-1;
+			}
+			string nick = msg.substr(nick_start, nick_end - nick_start);
 			cmd = new NickCommand(from, nick);
 		} else {
 			cmd = new UnknownCommand(from);

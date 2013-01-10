@@ -19,19 +19,18 @@ int Socket::getFd() const {
 }
 
 int Socket::readTo(ostringstream& to) const {
-	char buf[BUFSIZE];
-	int bytes_written = read(_fd, buf, BUFSIZE-1);
-	if (bytes_written > 0) {
-		buf[bytes_written] = '\0';
+	char buf[BUFSIZE+1];
+	int bytes_read = read(_fd, buf, BUFSIZE);
+	if (bytes_read > 0) {
+		buf[bytes_read] = '\0';
 		to << buf;
 	}
-	return bytes_written;
+	return bytes_read;
 }
 
 void Socket::write(const string& message) const {
 	if (send(_fd, message.data(), message.size(), MSG_NOSIGNAL) == -1) {
-		// TODO: throw more appropriate exception
-		throw "write failed";
+		// write failed
 	}
 }
 

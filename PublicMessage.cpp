@@ -13,7 +13,7 @@
 PublicMessage::PublicMessage(Client* from, const string& message)
 : Command(from) {
 	ostringstream out;
-	out << from->getName() << ": " << message << endl;
+	out << from->getName() << ": " << message;
 	_message = out.str();
 }
 
